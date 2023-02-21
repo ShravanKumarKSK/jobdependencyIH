@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # Mock to test workflow
+    - name: Test app
+      id: test-app # will be referenced later
+      run: |
+        echo "Testing app (randomly fails)"
+        if [[ $(($RANDOM % 2)) == 0 ]]; then exit 0; else exit 1; fi
+
+    # runs always
+    - name: test-clean
+      if: always()
+      run: echo "Cleanup after tests"
+
+    # runs if previous jobs failed and test-app was not successful (failure/cancelled)
+    - name: action-slack
+      if: failure() && steps.test-app.outcome != 'success'
+      run: |
+        echo "Run action-slack"
+        echo "Result of test-app was '${{ steps.test-app.outcome }}'"
