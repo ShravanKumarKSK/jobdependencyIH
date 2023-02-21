@@ -7,11 +7,11 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
-#   workflow_dispatch:
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,9 +20,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Sleep and Run
-      run: |
-        echo "Completed job 1"
+    - name: list all files
+      run: ls  
+    - name: install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: run python file
+      run: python test.py
+    - name: list all new files
+      run: ls 
         
 
   job2:
@@ -31,7 +38,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Dependant is Running
-      run: |
-        echo "Completed job 2"
-        exit 1
+    - name: print a value
+      run: echo Completed job 2
