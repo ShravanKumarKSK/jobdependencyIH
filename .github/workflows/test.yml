@@ -23,7 +23,7 @@ jobs:
     - name: Sleep and Run
       run: |
         echo "Completed job 1"
-        s
+        
 
   job2:
     name: Job 2
