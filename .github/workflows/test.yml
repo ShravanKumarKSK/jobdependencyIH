@@ -45,7 +45,7 @@ jobs:
   job3:
     name: Job 3
     needs: job1
-    if: always()
+    if: failure()
     runs-on: ubuntu-latest
 
     steps:
